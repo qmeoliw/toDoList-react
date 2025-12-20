@@ -2,19 +2,20 @@ import { useEffect, useState } from 'react'
 import './App.css'
 
 function App(){
-  const [tasks, setTasks] = useState([])
+  const [tasks, setTasks] = useState(() => {
+    try {
+      return JSON.parse(localStorage.getItem('todos')) || []
+    } catch {
+      return []
+    }
+  })
   const[text, setText]=useState("")
 
   useEffect(()=>{
     localStorage.setItem('todos', JSON.stringify(tasks))
   },[tasks])
 
-    useEffect(() => {
-    const savedTasks = localStorage.getItem('todos')
-    if (savedTasks) {
-      setTasks(JSON.parse(savedTasks))
-    }
-  }, [])
+
 
   const addTask=(e)=>{
     e.preventDefault()
